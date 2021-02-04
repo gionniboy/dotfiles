@@ -1,0 +1,21 @@
+{{- if (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+repositories=()
+packages=(
+    git
+    curl
+    vim
+    ripgrep
+    jq
+    zsh
+    git-lfs
+    tmux
+    code
+    firefox
+    google-chrome
+)
+
+{{ end }}
