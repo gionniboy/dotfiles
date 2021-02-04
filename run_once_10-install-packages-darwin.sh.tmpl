@@ -1,0 +1,29 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+formulae=(
+    curl
+    dockutil
+    git-lfs
+    gnu-units
+    gnupg
+    go
+    jq
+    pkg-config
+    ripgrep
+    tmux
+    xz
+)
+casks=(
+    docker
+    google-chrome
+    iterm2
+    macvim
+    visual-studio-code
+)
+
+brew install ${formulae[@]}
+brew cask install ${casks[@]}
+{{ end }}
