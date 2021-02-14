@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Id: run_once_00-homebrew 1.0.0 (2021/02/13)
+# Author: Gionni <giovbat@gmail.com>
+# Desc: Install homebrew on MacOs Darwin
+
+# ---------------------------- #
+# Variable declaration section #
+# ---------------------------- #
+readonly HB_INSTALLSCRIPT_URI="https://raw.githubusercontent.com/Homebrew/install/master/install.sh"
+
+# -------------- #
+# Main Functions #
+# -------------- #
+function homebrew_install () {
+    if type brew &>/dev/null ; then
+        printf "[**] Brew already installed.\n"
+    else
+        printf "[**] Brew not found, installing..\n"
+        /bin/bash -c "$(curl -fsSL ${HB_INSTALLSCRIPT_URI})"
+    fi
+}
+
+function _main() {
+    printf %.1s ={1..80} $'\n'
+    printf "Executing \033[1m${0}\033[0m you may be asked for a password to install some package.\n"
+    printf %.1s ={1..80} $'\n'
+{{ if eq .chezmoi.os "darwin" }}
+    homebrew_install
+{{ end }}
+}
+
+_main ${@}
