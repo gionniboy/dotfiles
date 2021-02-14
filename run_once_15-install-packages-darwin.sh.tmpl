@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# Id: run_once_15-install-packages-darwin 1.0.0 (2021/02/13)
+# Author: Gionni <giovbat@gmail.com>
+# Desc: Install packages on MacOs Darwin
+
+set -eufo pipefail
+
+{{- if (eq .chezmoi.os "darwin") -}}
+
+formulae=(
+    ansible
+    autojump
+    awscli
+    bash
+    bash-completion
+    coreutils
+    ctags
+    curl
+    dockutil
+    fd
+    findutils
+    fzf
+    gawk
+    git
+    git-lfs
+    gnu-getopt
+    gnu-indent
+    gnu-sed
+    gnu-tar
+    gnu-units
+    gnupg
+    gnutls
+    go
+    grep
+    htop
+    httpie
+    iftop
+    jq
+    ncdu
+    nmap
+    pgbadger
+    pipx
+    pkg-config
+    pv
+    pwgen
+    pyenv
+    pyenv-virtualenvwrapper
+    rename
+    ripgrep
+    screen
+    shellcheck
+    terminal_notifier
+    the_silver_searcher
+    tmux
+    unrar
+    vim
+    vnstat
+    wget
+    whois
+    xz
+)
+
+casks=(
+    1password
+    docker
+    firefox
+    font-hack-nerd-font
+    font-terminess-ttf-nerd-font
+    google-chrome
+    iterm2
+    macvim
+    slack
+    spotify
+    telegram-desktop
+    vagrant
+    virtualbox
+    visual-studio-code
+    vlc
+    zoomus
+)
+
+brew install ${formulae[@]}
+brew cask install ${casks[@]}
+{{ end }}
