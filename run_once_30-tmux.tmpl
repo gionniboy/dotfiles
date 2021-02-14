@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Id: run_once_30-tmux.tmpl 1.0.0 (2021/02/13)
+# Author: Gionni <giovbat@gmail.com>
+# Desc: Addon script for chezmoi <https://github.com/twpayne/chezmoi>
+# Customise tmux
+
+# ----------------------------------------------------------------------
+# Variable declaration section.
+# ----------------------------------------------------------------------
+readonly TMUX_PLUGINS_REPOS=(
+    https://github.com/tmux-plugins/tpm.git
+)
+# ---------------------------------------------------------------------- #
+readonly GIT_OPTS="--quiet"
+readonly TMUX_PLUGINDIR="${HOME}/.tmux/plugins"
+
+# ----------------------------------------------------------------------
+# Functions and main code - Do not modify below.
+# ----------------------------------------------------------------------
+function install_tmux_plugins () {
+    for PLUGIN in ${TMUX_PLUGINS_REPOS[@]} ; do
+        export PLUGIN_NAME=$(echo ${PLUGIN%.*} | rev | cut -d/ -f1 | rev)
+        if [[ ! -d "${TMUX_PLUGINDIR}/${PLUGIN_NAME}" ]] ; then 
+            printf "[**] Installing TMUX plugin: ${PLUGIN}\n"
+            git clone ${GIT_OPTS} ${PLUGIN} ${TMUX_PLUGINDIR}/${PLUGIN_NAME}
+        fi
+    done
+}
+
+install_tmux_plugins

@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Id: run_once_20-zsh.tmpl 1.0.0 (2021/02/13)
+# Author: Gionni <giovbat@gmail.com>
+# Desc: Addon script for chezmoi <https://github.com/twpayne/chezmoi>
+# Customise zsh
+
+# ----------------------------------------------------------------------
+# Variable declaration section.
+# ----------------------------------------------------------------------
+readonly ZSH_THEMES_REPOS=(
+    "https://github.com/Powerlevel9k/powerlevel9k.git"
+    "https://github.com/romkatv/powerlevel10k.git"
+    )
+
+readonly ZSH_PLUGINS_REPOS=(
+    https://github.com/zsh-users/zsh-autosuggestions.git
+    https://github.com/zsh-users/zsh-syntax-highlighting.git
+)
+# ---------------------------------------------------------------------- #
+readonly OMZSH_GITURL=https://github.com/ohmyzsh/ohmyzsh.git
+readonly GIT_OPTS="--quiet"
+readonly OHMZSH_INSTALLDIR=${HOME}/.config/oh-my-zsh
+readonly OMZSH_THEMEDIR="${OHMZSH_INSTALLDIR}/themes"
+readonly OMZSH_PLUGINDIR="${OHMZSH_INSTALLDIR}/plugins"
+
+# ----------------------------------------------------------------------
+# Functions and main code - Do not modify below.
+# ----------------------------------------------------------------------
+function install_ohmyzsh () {
+    if [[ ! -d ${OHMZSH_INSTALLDIR} ]] ; then
+        printf "[**] Installing Oh-My-ZSH\n"
+        git clone ${GIT_OPTS} ${OMZSH_GITURL} ${OHMZSH_INSTALLDIR}
+    fi
+}
+
+function install_zsh_plugins () {
+    for PLUGIN in ${ZSH_PLUGINS_REPOS[@]} ; do
+        export PLUGIN_NAME=$(echo ${PLUGIN%.*} | rev | cut -d/ -f1 | rev)
+        if [[ ! -d "${OMZSH_PLUGINDIR}/${PLUGIN_NAME}" ]] ; then
+            printf "[**] Installing plugin: ${PLUGIN}\n"
+            git clone ${GIT_OPTS} ${PLUGIN} ${OMZSH_PLUGINDIR}/${PLUGIN_NAME}
+        fi
+    done
+}
+
+function install_zsh_themes () {
+    for THEME in ${ZSH_THEMES_REPOS[@]} ; do
+        export THEME_NAME=$(echo ${THEME%.*} | rev | cut -d/ -f1 | rev)
+        if [[ ! -d "${OMZSH_THEMEDIR}/${THEME_NAME}" ]] ; then
+            printf "[**] Installing theme: ${THEME}\n"
+            git clone ${GIT_OPTS} ${THEME} ${OMZSH_THEMEDIR}/${THEME_NAME}
+        fi
+    done
+}
+
+install_ohmyzsh
+install_zsh_plugins
+install_zsh_themes
